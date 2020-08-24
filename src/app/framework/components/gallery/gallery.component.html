@@ -1,0 +1,45 @@
+<div class="fx-gallery">
+  
+  <div class="fx-gallery-header">
+    <span>{{galleryName}}</span>
+    <p>{{galleryDescription}}</p>
+  </div>
+
+  <div class="fx-gallery-toolbar">
+    <fx-search-bar 
+      (input)="search($event)"></fx-search-bar>
+  </div>
+  
+  <div class="fx-gallery-body" *ngIf="(images$ | async) as images">
+
+    <ng-container *ngIf="!images">
+      <ng-container [ngTemplateOutlet]="noImagesTemplate"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="images">
+      <ng-container 
+        [ngTemplateOutlet]="imagesTemplate" 
+        [ngTemplateOutletContext]="{galleryImages: images}"></ng-container>
+    </ng-container>
+
+  </div>
+
+</div>
+
+<ng-template #noImagesTemplate>
+  <span>No images</span>
+</ng-template>
+
+<ng-template #imagesTemplate let-galleryImages='images'>
+  <span>Images</span>
+  <table>
+    <thead>
+      <th>Test</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let image of images">
+        <td><img src="{{image.uri}}"/></td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>

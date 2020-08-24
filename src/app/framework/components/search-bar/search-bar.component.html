@@ -1,0 +1,6 @@
+<div class="search-bar" [ngClass]="{'expanded':!collapsed}">
+  <div class="search-bar-content">
+      <input id="search-bar-input" class="ml-24" type="text" placeholder="Search" (input)="search($event)"
+              fxFlex>
+  </div>
+</div>

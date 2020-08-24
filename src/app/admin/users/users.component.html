@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Users</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-sm btn-outline-secondary">Create User</button>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <p-table class="table" 
+    (onEditComplete)="onUserEditComplete($event)"
+    (onEditCancel)="onUserEditCancel($event)"
+    [responsive]="true" 
+    [paginator]="true" 
+    [rows]="10" 
+    [value]="users$ | async">
+    <ng-template pTemplate="caption">
+        List of Users
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{user.Id}}</td>
+            <td [pEditableColumn]="user" [pEditableColumnField]="'Username'">
+              <p-cellEditor>
+                  <ng-template pTemplate="input">
+                      <input pInputText type="text" [(ngModel)]="user.Username">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                      {{user.Username}}
+                  </ng-template>
+              </p-cellEditor>
+            </td>
+            <td [pEditableColumn]="user" [pEditableColumnField]="'FirstName'">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="user.FirstName">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{user.FirstName}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td [pEditableColumn]="user" [pEditableColumnField]="'LastName'">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="user.LastName">
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{user.LastName}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td [pEditableColumn]="user" [pEditableColumnField]="'Roles'">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <p-multiSelect [options]="roles$ | async" [(ngModel)]="user.Roles"></p-multiSelect>
+                </ng-template>
+                <ng-template pTemplate="output">
+                    {{user.Roles | json}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <a class="btn btn-link" href="#" (click)="delete(user.Id)">delete</a>
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
