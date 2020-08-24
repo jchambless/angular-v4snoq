@@ -1,6 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 import { FxGalleryItem } from './types/gallery-item';
+import { IFxCategoryItem } from './types/category-item';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -8,9 +9,25 @@ import * as _ from 'lodash';
 })
 export class FxGalleryService {
   public images$: Subject<FxGalleryItem[]>;
+  public catalogs$: Subject<IFxCategoryItem[]>;
   
   constructor() {
     this.images$ = new Subject();
+    this.catalogs$ = new Subject();
+  }
+
+  getCatalogs(): void {
+    const result: IFxCategoryItem[] = [
+      {
+        name: "Berlin Pictures",
+        code: "ber"
+      } as IFxCategoryItem,
+      {
+        name: "France Pictures",
+        code: "fra"
+      } as IFxCategoryItem
+    ];
+    this.catalogs$.next(result);
   }
 
   getGallery(name: string, limit?:number, offset?:number): void {
@@ -30,16 +47,6 @@ export class FxGalleryService {
       result = _.filter(result, f => f.name.toLowerCase().includes(searchTerms.toLowerCase()));
       this.images$.next(result);
     }
-  }
-
-  getGalleryItems(searchTerms: string): void {
-    const result: FxGalleryItem[] = [
-      FxGalleryItem.create('Berlin', 'https://en.wikipedia.org/wiki/Berlin#/media/File:Aerial_view_of_Berlin_(32881394137).jpg', 100, 100),
-      FxGalleryItem.create('Berlin', 'https://en.wikipedia.org/wiki/Berlin#/media/File:Aerial_view_of_Berlin_(32881394137).jpg', 100, 100),
-      FxGalleryItem.create('Berlin', 'https://en.wikipedia.org/wiki/Berlin#/media/File:Aerial_view_of_Berlin_(32881394137).jpg', 100, 100),
-      FxGalleryItem.create('Berlin', 'https://en.wikipedia.org/wiki/Berlin#/media/File:Aerial_view_of_Berlin_(32881394137).jpg', 100, 100),
-    ];
-    this.images$.next(result);
   }
 }
 

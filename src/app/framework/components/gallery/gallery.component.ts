@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, HostListener, ElementRef } from '@angular/core';
-import { MouseEvent } from '@angular/platform-browser';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FrameworkConfigService } from '../../services/config.service';
 import { FxGalleryService } from './gallery.service';
 import { FxGalleryItem } from './types/gallery-item';
+import { IFxCategoryItem } from './types/category-item';
 
 @Component({
   selector: 'fx-gallery',
@@ -22,6 +22,8 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
 
   config: any;
   images: any;
+  catalog: any;
+  selectedCatalog: any;
   defaultWidth: string = 'auto';
   defaultHeight: string = 'auto';
   
@@ -46,14 +48,18 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     this._galleryService.images$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((images: FxGalleryItem[]) => {
-        console.log("Images >");
-        console.log(images);
-
         if (images !== null && images.length > 0)
           this.images = images;
         else
           this.images = null;
       });
+    this._galleryService.catalogs$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((catalogs: any) => {
+        this.catalog = catalogs;
+      });
+    
+    this._galleryService.getCatalogs();
   }
 
   ngOnDestroy() {
@@ -67,7 +73,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   }
 
   paginate($event) {
-    
+
   }
 
   search($event) {
