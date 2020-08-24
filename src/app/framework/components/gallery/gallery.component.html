@@ -10,27 +10,27 @@
       (input)="search($event)"></fx-search-bar>
   </div>
   
-  <div class="fx-gallery-body" *ngIf="(images$ | async) as images">
+  <div class="fx-gallery-body">
 
     <ng-container *ngIf="!images">
-      <ng-container [ngTemplateOutlet]="noImagesTemplate"></ng-container>
+      <ng-container [ngTemplateOutlet]="noImagesTpl"></ng-container>
     </ng-container>
 
     <ng-container *ngIf="images">
       <ng-container 
-        [ngTemplateOutlet]="imagesTemplate" 
-        [ngTemplateOutletContext]="{galleryImages: images}"></ng-container>
+        [ngTemplateOutlet]="imagesTpl" 
+        [ngTemplateOutletContext]="{gallery: images}"></ng-container>
     </ng-container>
 
   </div>
 
 </div>
 
-<ng-template #noImagesTemplate>
+<ng-template #noImagesTpl>
   <span>No images</span>
 </ng-template>
 
-<ng-template #imagesTemplate let-galleryImages='images'>
+<ng-template #imagesTpl let-gallery='images'>
   <span>Images</span>
   <table>
     <thead>
@@ -38,7 +38,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let image of images">
-        <td><img src="{{image.uri}}"/></td>
+        <td><img src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/></td>
       </tr>
     </tbody>
   </table>

@@ -3,6 +3,7 @@ import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FrameworkConfigService } from '../../services/config.service';
 import { FxGalleryService } from './gallery.service';
+import { FxGalleryItem } from './types/gallery-item';
 
 @Component({
   selector: 'fx-gallery',
@@ -17,7 +18,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   @Input() rows: number;
 
   config: any;
-  images$: Observable<any>;
+  images: any;
   
   private _unsubscribeAll: Subject<any>;
 
@@ -36,6 +37,17 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
                 this.config = config;
             }
         );
+    this._galleryService.images$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((images: FxGalleryItem[]) => {
+        console.log("Images >");
+        console.log(images);
+
+        if (images !== null && images.length > 0)
+          this.images = images;
+        else
+          this.images = null;
+      });
   }
 
   ngOnDestroy() {
@@ -46,10 +58,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   search($event) {
     if (typeof $event === "string") {
       console.log("Event: " + $event);
-
-      if ($event === '') this.images$ = of(null);
-      else this.images$ = this._galleryService.getGalleryItems($event);
-      //this.images$ = of($event);
+      this._galleryService.getGallerySearch('Berlin Pictures', $event);
     }
   }
 }

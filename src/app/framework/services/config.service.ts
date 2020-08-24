@@ -39,10 +39,6 @@ export class FrameworkConfigService {
   }
 
   private _init(): void {
-    if (this._platform.ANDROID || this._platform.IOS) {
-        //this._defaultConfig.customScrollbars = false;
-    }
-
     this._configSubject = new BehaviorSubject(_.cloneDeep(this._defaultConfig));
 
     this._router.events
@@ -50,7 +46,6 @@ export class FrameworkConfigService {
         .subscribe(() => {
             if ( !_.isEqual(this._configSubject.getValue(), this._defaultConfig) ) {
                 const config = _.cloneDeep(this._configSubject.getValue());
-                //config.layout = _.cloneDeep(this._defaultConfig.layout);
                 this._configSubject.next(config);
             }
         });
