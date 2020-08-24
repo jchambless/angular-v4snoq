@@ -5,7 +5,7 @@ import { FRAMEWORK_CONFIG } from './services/config.service';
 export class FrameworkModule {
   constructor(@Optional() @SkipSelf() parentModule: FrameworkModule) {
       if (parentModule) {
-          throw new Error('FuseModule is already loaded. Import it in the AppModule only!');
+          throw new Error('FrameworkModule is already loaded. Import it in the AppModule only!');
       }
   }
 
