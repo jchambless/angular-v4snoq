@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, HostListener } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, HostListener, ElementRef } from '@angular/core';
+import { MouseEvent } from '@angular/platform-browser';
 import { Subject, Observable, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FrameworkConfigService } from '../../services/config.service';
@@ -14,11 +15,15 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
 
   @Input() galleryName: string;
   @Input() galleryDescription: string;
-  @Input() columns: number;
-  @Input() rows: number;
+  @Input() panelWidth: string;
+  @Input() panelHeight: string;
+
+  @Output() onImageClicked: EventEmitter<any>;
 
   config: any;
   images: any;
+  defaultWidth: string = 'auto';
+  defaultHeight: string = 'auto';
   
   private _unsubscribeAll: Subject<any>;
 
@@ -27,6 +32,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     private _galleryService: FxGalleryService
   ) {
     this._unsubscribeAll = new Subject();
+    this.onImageClicked = new EventEmitter();
   }
 
   ngOnInit() {
@@ -55,10 +61,23 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.complete();
   }
 
+  imageClick(theImage: FxGalleryItem) {
+    if (!theImage) return;
+    this.onImageClicked.emit(theImage);
+  }
+
+  paginate($event) {
+    
+  }
+
   search($event) {
-    if (typeof $event === "string") {
-      console.log("Event: " + $event);
-      this._galleryService.getGallerySearch('Berlin Pictures', $event);
-    }
+    // Have to do a check here for `string` because we are getting an object and string
+    // this is being called twice so we need to figure out why that's happening.
+    let searchTerms = (typeof $event === 'string') 
+      ? $event 
+      : null;
+    if (searchTerms === null) return;
+    this._galleryService
+      .getGallerySearch(this.galleryName, searchTerms);
   }
 }

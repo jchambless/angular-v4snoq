@@ -1,16 +1,20 @@
-<div class="fx-gallery">
+<div class="fx-gallery" [ngStyle]="{'width': panelWidth || defaultWidth, 'height': panelHeight || defaultHeight}">
   
   <div class="fx-gallery-header">
-    <span>{{galleryName}}</span>
+    <h4>{{galleryName}}</h4>
     <p>{{galleryDescription}}</p>
   </div>
 
   <div class="fx-gallery-toolbar">
-    <fx-search-bar 
-      (input)="search($event)"></fx-search-bar>
+    <p-toolbar>
+      <div class="ui-toolbar-group-left"></div>
+      <div class="ui-toolbar-group-right">
+          <fx-search-bar placeHolderText="Filter images" (input)="search($event)"></fx-search-bar>
+      </div>
+    </p-toolbar>
   </div>
   
-  <div class="fx-gallery-body">
+  <div class="fx-gallery-body p-grid p-align-center mt-2 mb-2">
 
     <ng-container *ngIf="!images">
       <ng-container [ngTemplateOutlet]="noImagesTpl"></ng-container>
@@ -24,22 +28,35 @@
 
   </div>
 
+  <div class="fx-gallery-footer">
+    <p-paginator [rows]="10" totalRecords="100" (onPageChange)="paginate($event)"></p-paginator>
+  </div>
+
 </div>
 
 <ng-template #noImagesTpl>
-  <span>No images</span>
+  <div class="p-col">
+    <span>No images</span>
+  </div>
 </ng-template>
 
 <ng-template #imagesTpl let-gallery='images'>
-  <span>Images</span>
-  <table>
+  <ng-container *ngFor="let image of images">
+    <!-- <div class="p-col"> -->
+    <p-card header="{{image.name}}" class="p-col-fixed" [ngStyle]="{'width': image.width, 'height': image.height}">
+      <img #tplImage (click)="imageClick(image)" src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/>
+    </p-card>
+    <!-- </div> -->
+  </ng-container>
+  <!-- <table>
     <thead>
       <th>Test</th>
     </thead>
     <tbody>
       <tr *ngFor="let image of images">
-        <td><img src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/></td>
+        <td><img #tplImage (click)="imageClick(image)" 
+          src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/></td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 </ng-template>

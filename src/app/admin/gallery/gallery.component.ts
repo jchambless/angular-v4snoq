@@ -18,7 +18,7 @@ export class GalleryComponent implements OnInit {
     this.description = "This is a gallery full of admin pictures.";
   }
 
-  search($event): void {
-    console.log("Seach returned: " + JSON.stringify($event));
+  imageClicked($event) {
+    console.log("Image was clicked. This is output from parent component.");
   }
 }

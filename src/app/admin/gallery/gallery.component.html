@@ -11,5 +11,7 @@
 <div class="mt-2">
   <fx-gallery
     [galleryName]=name
-    [galleryDescription]=description></fx-gallery>
+    [galleryDescription]=description
+    (onImageClicked)="imageClicked($event)">
+  </fx-gallery>
 </div>  

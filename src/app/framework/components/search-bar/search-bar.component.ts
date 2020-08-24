@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FrameworkConfigService } from '../../services/config.service';
@@ -11,9 +11,11 @@ import { FrameworkConfigService } from '../../services/config.service';
 export class SearchBarComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any>;
 
-  @Output()
-  input: EventEmitter<any>;
+  @Output() input: EventEmitter<any>;
 
+  @Input() placeHolderText: string;
+
+  defaultPlaceholderText: string = "Search..";
   collapsed: boolean;
   config: any;
 

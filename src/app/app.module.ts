@@ -24,8 +24,8 @@ import { frameworkConfig } from './shared/framework-config';
           { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule' },
         ]
       },
-      { path: '', redirectTo: '/app/main/home', pathMatch: 'full' },
-      { path: '**', redirectTo: '/app/main/home' }
+      { path: '', redirectTo: '/app/admin/dashboard', pathMatch: 'full' },
+      { path: '**', redirectTo: '/app/admin/dashboard' }
     ]),
     SharedModule
   ],
