@@ -1,4 +1,4 @@
-<div class="fx-gallery" [ngStyle]="{'width': panelWidth || defaultWidth, 'height': panelHeight || defaultHeight}">
+<div class="fx-gallery mb-4" [ngStyle]="{'width': panelWidth || defaultWidth, 'height': panelHeight || defaultHeight}">
   
   <div class="fx-gallery-header">
     <h4>{{galleryName}}</h4>
@@ -44,21 +44,8 @@
 
 <ng-template #imagesTpl let-gallery='images'>
   <ng-container *ngFor="let image of images">
-    <!-- <div class="p-col"> -->
     <p-card header="{{image.name}}" class="p-col-fixed" [ngStyle]="{'width': image.width, 'height': image.height}">
       <img #tplImage (click)="imageClick(image)" src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/>
     </p-card>
-    <!-- </div> -->
   </ng-container>
-  <!-- <table>
-    <thead>
-      <th>Test</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let image of images">
-        <td><img #tplImage (click)="imageClick(image)" 
-          src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/></td>
-      </tr>
-    </tbody>
-  </table> -->
 </ng-template>

@@ -23,11 +23,21 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   config: any;
   images: any;
   catalog: any;
-  selectedCatalog: any;
   defaultWidth: string = 'auto';
   defaultHeight: string = 'auto';
+
+  set selectedCatalog(value) {
+    this._selectedCatalog = value;
+    this._galleryService
+      .getGallery((<IFxCategroyItem>value).code);
+  }
+
+  get selectedCatalog()  {
+    return this._selectedCatalog;
+  }
   
   private _unsubscribeAll: Subject<any>;
+  private _selectedCatalog;
 
   constructor(
     private _configService: FrameworkConfigService,
@@ -57,6 +67,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((catalogs: any) => {
         this.catalog = catalogs;
+        this.selectedCatalog = this.catalog[0];
       });
     
     this._galleryService.getCatalogs();

@@ -25,13 +25,48 @@ export class FxGalleryService {
       {
         name: "France Pictures",
         code: "fra"
+      } as IFxCategoryItem,
+      {
+        name: "Tokyo Pictures",
+        code: "tok"
       } as IFxCategoryItem
     ];
     this.catalogs$.next(result);
   }
 
   getGallery(name: string, limit?:number, offset?:number): void {
-
+    if (name && name === 'tok') {
+      const result: FxGalleryItem[] = [
+        FxGalleryItem.create('Tokyo 1', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 2', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 3', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 4', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 5', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 6', base64Image, 300, 350),
+        FxGalleryItem.create('Tokyo 7', base64Image, 300, 350),
+      ];
+      this.images$.next(result);
+    } else if(name && name === 'ber') {
+      const result: FxGalleryItem[] = [
+        FxGalleryItem.create('Berlin 1', base64Image, 300, 350),
+        FxGalleryItem.create('Berlin 2', base64Image, 300, 350),
+        FxGalleryItem.create('Berlin 3', base64Image, 300, 350),
+        FxGalleryItem.create('Berlin 4', base64Image, 300, 350),
+      ];
+      this.images$.next(result);
+    } else if (name && name === 'fra') {
+      const result: FxGalleryItem[] = [
+        FxGalleryItem.create('France 1', base64Image, 300, 350),
+        FxGalleryItem.create('France 2', base64Image, 300, 350),
+        FxGalleryItem.create('France 3', base64Image, 300, 350),
+        FxGalleryItem.create('France 4', base64Image, 300, 350),
+        FxGalleryItem.create('France 5', base64Image, 300, 350),
+      ];
+      this.images$.next(result);
+    }
+    else {
+      this.images$.next(null);
+    }
   }
 
   getGallerySearch(name: string, searchTerms: string, limit?:number, offset?:number): void {
