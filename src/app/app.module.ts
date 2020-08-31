@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -13,6 +14,7 @@ import { frameworkConfig } from './shared/framework-config';
 @NgModule({
   imports:[ 
     BrowserModule, 
+    HttpClientModule,
     FrameworkModule.forRoot(frameworkConfig),
     FrameworkSharedModule,
     RouterModule.forRoot([

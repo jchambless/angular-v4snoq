@@ -1,5 +1,6 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { FxGalleryItem } from './types/gallery-item';
 import { IFxCategoryItem } from './types/category-item';
 import * as _ from 'lodash';
@@ -11,7 +12,9 @@ export class FxGalleryService {
   public images$: Subject<FxGalleryItem[]>;
   public catalogs$: Subject<IFxCategoryItem[]>;
   
-  constructor() {
+  constructor(
+    private httpClient: HttpClient
+  ) {
     this.images$ = new Subject();
     this.catalogs$ = new Subject();
   }
@@ -35,6 +38,12 @@ export class FxGalleryService {
   }
 
   getGallery(name: string, limit?:number, offset?:number): void {
+    this.httpClient.get<any>(`assets/berlin.json`)
+      .subscribe(result => {  
+        console.log(result);
+      }, error => {
+        console.error(error);
+      });  
     if (name && name === 'tok') {
       const result: FxGalleryItem[] = [
         FxGalleryItem.create('Tokyo 1', base64Image, 300, 350),
