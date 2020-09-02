@@ -4,8 +4,9 @@ import { Platform } from '@angular/cdk/platform';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { FrameworkConfig } from '../types/framework-config';
 
-export const FRAMEWORK_CONFIG = new InjectionToken('frameworkCustomConfig');
+export const FRAMEWORK_CONFIG = new InjectionToken<FrameworkConfig>('frameworkCustomConfig');
 
 @Injectable({
     providedIn: 'root'

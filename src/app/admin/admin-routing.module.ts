@@ -9,7 +9,7 @@ import { AdminComponent } from './admin.component';
         path: '',
         component: AdminComponent,
         children: [
-          { path: '', redirectTo: 'dashboard' },
+          { path: '', redirectTo: 'gallery' },
           { path: 'dashboard', loadChildren: 'app/admin/dashboard/dashboard.module#DashboardModule' },
           { path: 'users', loadChildren: 'app/admin/users/users.module#UsersModule' },
           { path: 'gallery', loadChildren: 'app/admin/gallery/gallery.module#GalleryModule' }

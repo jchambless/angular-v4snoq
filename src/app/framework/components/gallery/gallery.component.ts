@@ -19,6 +19,8 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   @Input() panelHeight: string;
 
   @Output() onImageClicked: EventEmitter<any>;
+  @Output() onCatalogCreated: EventEmitter<any>;
+  @Output() onImageUploaded: EventEmitter<any>;
 
   config: any;
   images: any;
@@ -45,6 +47,8 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   ) {
     this._unsubscribeAll = new Subject();
     this.onImageClicked = new EventEmitter();
+    this.onCatalogCreated = new EventEmitter();
+    this.onImageUploaded = new EventEmitter();
   }
 
   ngOnInit() {
@@ -69,6 +73,12 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
         this.catalog = catalogs;
         this.selectedCatalog = this.catalog[0];
       });
+
+    this._galleryService.catalogCreated$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((catalog: any) => {
+        this.onCatalogCreated.emit(catalog);
+      });
     
     this._galleryService.getCatalogs();
   }
@@ -87,6 +97,14 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
 
   }
 
+  editCatalog($event) {
+
+  }
+
+  deleteCatalog($event) {
+    
+  }
+
   search($event) {
     // Have to do a check here for `string` because we are getting an object and string
     // this is being called twice so we need to figure out why that's happening.
@@ -94,7 +112,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
       ? $event 
       : null;
     if (searchTerms === null) return;
-    this._galleryService
-      .getGallerySearch(this.galleryName, searchTerms);
+    // this._galleryService
+    //   .getGallerySearch(this.galleryName, searchTerms);
   }
 }

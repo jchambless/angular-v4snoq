@@ -11,6 +11,10 @@ import { FrameworkModule } from './framework/framework.module';
 import { FrameworkSharedModule } from './framework/shared.module';
 import { frameworkConfig } from './shared/framework-config';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+
 @NgModule({
   imports:[ 
     BrowserModule, 
@@ -29,7 +33,10 @@ import { frameworkConfig } from './shared/framework-config';
       { path: '', redirectTo: '/app/admin/dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: '/app/admin/dashboard' }
     ]),
-    SharedModule
+    SharedModule,
+    AngularFireModule.initializeApp(frameworkConfig.fireBase),
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ]

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { FxGalleryService } from '../../framework/components/gallery/gallery.service';
 
 @Component({
   selector: 'admin-gallery',
@@ -9,7 +10,9 @@ export class GalleryComponent implements OnInit {
   name: string;
   description: string;
 
-  constructor() {
+  constructor(
+    private galleryService: FxGalleryService
+  ) {
 
   }
 
@@ -20,5 +23,21 @@ export class GalleryComponent implements OnInit {
 
   imageClicked($event) {
     console.log("Image was clicked. This is output from parent component.");
+  }
+
+  createCatalog($event) {
+    this.galleryService.openCatalogDialog();
+  }
+
+  catalogCreated($event) {
+    console.log("Create catalog clicked.");
+  }
+
+  uploadToCatalog($event) {
+    this.galleryService.openUploadDialog();
+  }
+
+  imageUploaded($event) {
+    console.log("Image upload clicked.");
   }
 }

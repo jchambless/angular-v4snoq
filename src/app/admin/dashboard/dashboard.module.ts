@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -22,6 +22,9 @@ import { ChartsModule } from 'ng2-charts';
   ],
   exports: [
     RouterModule
+  ],
+  providers: [
+    ThemeService
   ]
 })
 export class DashboardModule {}

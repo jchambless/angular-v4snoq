@@ -8,10 +8,13 @@
   <div class="fx-gallery-toolbar">
     <p-toolbar>
       <div class="ui-toolbar-group-left">
-        <p-dropdown [options]="catalog" [(ngModel)]="selectedCatalog" optionLabel="name"></p-dropdown>
+        <label for="catalog">Catalog:&nbsp;</label>
+        <p-dropdown name="catalog" [options]="catalog" [(ngModel)]="selectedCatalog" optionLabel="name"></p-dropdown>
+        <button pButton type="button" label="Edit" class="ui-button-secondary ml-2" (click)="editCatalog($event)"></button>
+        <button pButton type="button" label="Delete" class="ui-button-secondary ml-2" (click)="deleteCatalog($event)"></button>
       </div>
       <div class="ui-toolbar-group-right">
-          <fx-search-bar placeHolderText="Filter images" (input)="search($event)"></fx-search-bar>
+          <fx-search-bar placeHolderText="Search Filter" (input)="search($event)"></fx-search-bar>
       </div>
     </p-toolbar>
   </div>
@@ -49,3 +52,5 @@
     </p-card>
   </ng-container>
 </ng-template>
+
+<p-toast position="top-center"></p-toast>
