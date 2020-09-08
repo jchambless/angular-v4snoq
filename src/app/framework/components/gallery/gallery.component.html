@@ -1,5 +1,7 @@
 <div class="fx-gallery mb-4" [ngStyle]="{'width': panelWidth || defaultWidth, 'height': panelHeight || defaultHeight}">
   
+  <p-toast position="top-center"></p-toast>
+
   <div class="fx-gallery-header">
     <h4>{{galleryName}}</h4>
     <p>{{galleryDescription}}</p>
@@ -18,39 +20,47 @@
       </div>
     </p-toolbar>
   </div>
-  
-  <div class="fx-gallery-body p-grid p-align-center mt-2 mb-2">
 
-    <ng-container *ngIf="!images">
-      <ng-container [ngTemplateOutlet]="noImagesTpl"></ng-container>
-    </ng-container>
-
-    <ng-container *ngIf="images">
-      <ng-container 
-        [ngTemplateOutlet]="imagesTpl" 
-        [ngTemplateOutletContext]="{gallery: images}"></ng-container>
-    </ng-container>
-
-  </div>
-
-  <div class="fx-gallery-footer">
-    <p-paginator [rows]="10" totalRecords="100" (onPageChange)="paginate($event)"></p-paginator>
-  </div>
+  <ng-container *ngIf="(images$ | loading | async) as images">
+    <ng-container *ngIf="images.loading" [ngTemplateOutlet]="loadingTpl"></ng-container>
+    <ng-container *ngIf="!images.loading && !images.value" [ngTemplateOutlet]="noImagesTpl"></ng-container>
+    <ng-container *ngIf="images.value" [ngTemplateOutlet]="imagesTpl" [ngTemplateOutletContext]="{$implicit: images.value}"></ng-container>
+    <ng-container *ngIf="images.error" [ngTemplateOutlet]="errorTpl" [ngTemplateOutletContext]="{$implicit: images.error}"></ng-container>
+  </ng-container>
 
 </div>
 
 <ng-template #noImagesTpl>
-  <div class="p-col">
-    <span>No images</span>
+  <div class="fx-gallery-body p-grid p-align-center mt-2 mb-2">
+    <div class="p-col">
+      <span>No images</span>
+    </div>
   </div>
 </ng-template>
 
-<ng-template #imagesTpl let-gallery='images'>
-  <ng-container *ngFor="let image of images">
-    <p-card header="{{image.name}}" class="p-col-fixed" [ngStyle]="{'width': image.width, 'height': image.height}">
-      <img #tplImage (click)="imageClick(image)" src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/>
-    </p-card>
+<ng-template #imagesTpl let-images>
+  <div class="fx-gallery-body p-grid p-align-center mt-2 mb-2">
+    <ng-container *ngFor="let image of images">
+      <p-card header="{{image.name}}" class="p-col-fixed" [ngStyle]="{'width': image.width, 'height': image.height}">
+        <img #tplImage (click)="imageClick(image)" src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/>
+      </p-card>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="images.length > 10">
+    <div class="fx-gallery-footer">
+      <p-paginator [rows]="10" totalRecords="100" (onPageChange)="paginate($event)"></p-paginator>
+    </div>
   </ng-container>
 </ng-template>
 
-<p-toast position="top-center"></p-toast>
+<ng-template #loadingTpl>
+  <div class="mt-2">
+    <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+  </div>
+</ng-template>
+
+<ng-template #errorTpl let-error>
+  <div class="mt-2">
+    <p-message severity="error" [text]="error"></p-message>
+  </div>
+</ng-template>

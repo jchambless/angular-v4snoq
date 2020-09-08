@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Subject, Observable, of } from 'rxjs';
-import { mergeAll, mergeMap } from 'rxjs/operators';
+import { Subject, BehaviorSubject, Observable, of, from } from 'rxjs';
+import { mergeAll, mergeMap, finalize, takeUntil, tap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { FxGalleryItem } from './types/gallery-item';
 import { IFxCategoryItem, IGalleryDto } from './types/category-item';
@@ -21,6 +21,8 @@ export class FxGalleryService {
   public images$: Subject<FxGalleryItem[]>;
   public catalogs$: Subject<IFxCategoryItem[]>;
   public catalogCreated$: Subject<any>;
+
+  private _selectedCatalog: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   
   constructor(
     private httpClient: HttpClient,
@@ -52,16 +54,19 @@ export class FxGalleryService {
   getGallery(location: string, limit?:number, offset?:number): void {
     let gallery = [];
     this.images$.next(null);
+    this._selectedCatalog.next(location);
     this.fireStorage.ref(location)
       .listAll()
-      .pipe(mergeMap(r => r.items))
-      .pipe(mergeMap(x => x.getDownloadURL()))
+      .pipe(
+        mergeMap(r => r.items), 
+        mergeMap(x => x.getDownloadURL()), 
+        finalize(() => this.images$.next(gallery)))
       .subscribe(c => {
         gallery.push(FxGalleryItem.create('pic 1', c, 350, 300));
-        this.images$.next(gallery);
       }, e => {
         console.error(e);
       });
+    
   }
 
   openCatalogDialog() {
@@ -75,19 +80,34 @@ export class FxGalleryService {
       if (_.isUndefined(catalog) || _.isNull(catalog) 
         || (_.isUndefined(catalog.location) || _.isNull(catalog.location)))
         return;
-
-      console.log('Catalog item created below:');
-      console.log(catalog);
-
       await this.createCatalog(catalog);
-      this.catalogCreated$.next(catalog);
+      setTimeout(() => {
+        this.catalogCreated$.next(catalog);
+      }, 500);
     });
   }
 
   openUploadDialog() {
-    const dialogRef = this.dialogService.open(FxCatalogUploadDialogComponent, {});
+    const dialogRef = this.dialogService.open(FxCatalogUploadDialogComponent, {
+      header: 'Upload Image',
+      width: '50%',
+      contentStyle: {"max-height": "500px", "overflow": "auto"}
+    });
 
-    dialogRef.onClose.subscribe(result => {});
+    dialogRef.onClose.subscribe(async (result) => {
+      if (_.isUndefined(result) || _.isNull(result)) return;
+      const location = this._selectedCatalog.getValue();
+      await from(result.files).forEach((f: File) => {
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', async (event: any) => {
+          const result = await this.fireStorage.upload(`${location}/${f.name}`, event.target.result);
+        });
+        fileReader.readAsArrayBuffer(f);
+      });
+      setTimeout(() => {
+        this.getGallery(location);
+      }, 1000);
+    });
   }
 
   async createCatalog(catalog: IGalleryDto) {

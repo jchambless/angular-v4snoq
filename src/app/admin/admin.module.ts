@@ -9,6 +9,7 @@ import { SidebarComponent } from './shared/layout/sidebar/sidebar.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { GalleryModule } from './gallery/gallery.module';
+import { BlogModule } from './blog/blog.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { GalleryModule } from './gallery/gallery.module';
     AdminRoutingModule,
     DashboardModule,
     UsersModule,
-    GalleryModule
+    GalleryModule,
+    BlogModule
   ],
   declarations: [
     AdminComponent,

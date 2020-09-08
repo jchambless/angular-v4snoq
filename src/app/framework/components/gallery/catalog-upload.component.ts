@@ -14,7 +14,7 @@ import * as moment from 'moment';
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <p-fileUpload name="images[]" accept="image/*" (uploadHandler)="handleUpload($event)" multiple="multiple"></p-fileUpload>
+          <p-fileUpload name="images[]" accept="image/*" customUpload="true" (uploadHandler)="handleUpload($event)" multiple="multiple"></p-fileUpload>
         </div>
       </div>
     </div>
@@ -28,18 +28,15 @@ export class FxCatalogUploadDialogComponent implements OnInit, OnDestroy {
     public dialogRef: DynamicDialogRef,
     public dialogConfig: DynamicDialogConfig
   ) {
-
   }
 
   ngOnInit() {
-
   }
 
   ngOnDestroy() {
-
   }
 
   handleUpload($event) {
-
+    this.dialogRef.close($event);
   }
 }

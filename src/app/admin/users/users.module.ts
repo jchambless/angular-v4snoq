@@ -19,9 +19,6 @@ import { UsersComponent } from './users.component';
   ],
   declarations: [
     UsersComponent
-  ],
-  exports: [
-    RouterModule
   ]
 })
 export class UsersModule {}

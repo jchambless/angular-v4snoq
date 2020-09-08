@@ -23,7 +23,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
   @Output() onImageUploaded: EventEmitter<any>;
 
   config: any;
-  images: any;
+  images$: Subject<any>;
   catalog: any;
   defaultWidth: string = 'auto';
   defaultHeight: string = 'auto';
@@ -46,6 +46,7 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     private _galleryService: FxGalleryService
   ) {
     this._unsubscribeAll = new Subject();
+    this.images$ = new Subject();
     this.onImageClicked = new EventEmitter();
     this.onCatalogCreated = new EventEmitter();
     this.onImageUploaded = new EventEmitter();
@@ -62,10 +63,11 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     this._galleryService.images$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((images: FxGalleryItem[]) => {
-        if (images !== null && images.length > 0)
-          this.images = images;
-        else
-          this.images = null;
+        if (images !== null && images.length > 0) {
+          this.images$.next(images);
+        } else {
+          this.images$.next(null);
+        }
       });
     this._galleryService.catalogs$
       .pipe(takeUntil(this._unsubscribeAll))
