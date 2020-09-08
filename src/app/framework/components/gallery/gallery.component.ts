@@ -107,6 +107,16 @@ export class FxGalleryComponent implements OnInit, OnDestroy {
     
   }
 
+  deleteImage($event) {
+    console.log('delete image called');
+    console.log($event);
+  }
+
+  editImage($event) {
+    console.log('edit image called');
+    console.log($event);
+  }
+
   search($event) {
     // Have to do a check here for `string` because we are getting an object and string
     // this is being called twice so we need to figure out why that's happening.

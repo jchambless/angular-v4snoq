@@ -43,6 +43,10 @@
     <ng-container *ngFor="let image of images">
       <p-card header="{{image.name}}" class="p-col-fixed" [ngStyle]="{'width': image.width, 'height': image.height}">
         <img #tplImage (click)="imageClick(image)" src="{{image.uri}}" width="{{image.width}}" height="{{image.height}}"/>
+        <p-footer>
+          <button type="button" pButton label="Edit" class="ui-button-primary mr-2" (click)="editImage(image)"></button>
+          <button type="button" pButton label="Delete" class="ui-button-danger mr-2" (click)="deleteImage(image)"></button>
+        </p-footer>
       </p-card>
     </ng-container>
   </div>
