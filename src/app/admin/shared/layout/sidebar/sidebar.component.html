@@ -1,36 +1,22 @@
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
   <div class="sidebar-sticky">
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link active" [routerLinkActive]="['active']" [routerLink]="['/app/admin/dashboard']">
-          Dashboard <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/app/admin/blog']">
-          Blog
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/app/admin/gallery']">
-          Gallery
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/app/admin/users']">
-          Users
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/app/admin/roles']">
-          Roles
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/app/admin/settings']">
-          Settings
-        </a>
-      </li>
-    </ul>
+    <ng-container *ngIf="(menu$ | async) as menu">
+      <ng-container *ngIf="menu" [ngTemplateOutlet]="menuTpl" [ngTemplateOutletContext]="{$implicit: menu}"></ng-container>
+      <ng-container *ngIf="!menu" [ngTemplateOutlet]="noMenuTpl"></ng-container>
+    </ng-container>
   </div>
 </nav>
+
+<ng-template #menuTpl let-menu>
+  <ng-container>
+    <ul class="nav flex-column">
+      <li *ngFor="let menuItem of menu.items">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]=menuItem.url>{{menuItem.display_name}}</a>
+      </li>
+    </ul>
+  </ng-container>
+</ng-template>
+
+<ng-template #noMenuTpl>
+  <span>No menu</span>
+</ng-template>
