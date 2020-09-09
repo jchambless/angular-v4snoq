@@ -2,11 +2,24 @@
   <h1 class="h2">Settings</h1>
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="mr-2">
-      <button class="btn btn-sm btn-outline-secondary">Create Setting</button>
+      <button class="btn btn-sm btn-outline-secondary">Save Settings</button>
     </div>
   </div>
 </div>
 
 <div class="mt-2">
-  <p>Content</p>
+  <p-tabView #settingsTabView>
+    <p-tabPanel header="General">
+      Content 1
+    </p-tabPanel>
+    <p-tabPanel header="Navigation">
+        Content 2
+    </p-tabPanel>
+    <p-tabPanel header="Pages">
+        Content 3
+    </p-tabPanel>
+    <p-tabPanel header="Modules">
+        Content 4
+    </p-tabPanel>
+</p-tabView>
 </div>

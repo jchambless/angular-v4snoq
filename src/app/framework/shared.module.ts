@@ -14,6 +14,16 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {BlockUIModule} from 'primeng/blockui';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {PanelModule} from 'primeng/panel';
+import {MenubarModule} from 'primeng/menubar';
+import {MegaMenuModule} from 'primeng/megamenu';
+import {TabMenuModule} from 'primeng/tabmenu';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {TooltipModule} from 'primeng/tooltip';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {LightboxModule} from 'primeng/lightbox';
+import {FieldsetModule} from 'primeng/fieldset';
+import {TabViewModule} from 'primeng/tabview';
 
 import { LoadingPipe } from './pipes/loading.pipe';
 
@@ -35,7 +45,17 @@ import { LoadingPipe } from './pipes/loading.pipe';
     ProgressSpinnerModule,
     BlockUIModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    PanelModule,
+    MenubarModule,
+    MegaMenuModule,
+    TabMenuModule,
+    BreadcrumbModule,
+    TooltipModule,
+    OverlayPanelModule,
+    LightboxModule,
+    FieldsetModule,
+    TabViewModule
   ],
   exports: [
     LoadingPipe,
@@ -52,7 +72,17 @@ import { LoadingPipe } from './pipes/loading.pipe';
     ProgressSpinnerModule,
     BlockUIModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    PanelModule,
+    MenubarModule,
+    MegaMenuModule,
+    TabMenuModule,
+    BreadcrumbModule,
+    TooltipModule,
+    OverlayPanelModule,
+    LightboxModule,
+    FieldsetModule,
+    TabViewModule
   ]
 })
 export class FrameworkSharedModule {}

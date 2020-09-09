@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FrameworkSharedModule } from '../../framework/shared.module';
 import { SettingsComponent } from './settings.component';
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SettingsComponent } from './settings.component';
         component: SettingsComponent,
         pathMatch: 'full'
       }
-    ])
+    ]),
+    FrameworkSharedModule
   ],
   declarations: [
     SettingsComponent
